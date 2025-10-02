@@ -82,7 +82,7 @@ button:hover {
   grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   gap: 15px;
   padding: 10px;
-  border: 2px dashed #ccc;
+
   min-height: 200px;
   align-items: center;
   justify-items: center;
@@ -124,6 +124,7 @@ Otimização para impressão (@media print)
     box-shadow: none;
     padding: 0;
     max-width: none;
+    padding: 50px;
   }
   h1,
   button,
@@ -160,25 +161,27 @@ Otimização para impressão (@media print)
   /* * CHAVE: Layout de Preenchimento da Folha * */
   .image-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Força 2 colunas */
-    gap: 0; /* Imagens coladas */
-
-    /* Remove regras de altura forçada e quebra de página */
-    height: auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
     padding: 0;
     margin-bottom: 0;
     border: none;
+
+    /* CHAVE 1: Alinha todos os itens da grade ao topo da linha */
+    align-items: start;
+    /* Remove 'justify-items: center;' se estiver lá, ou defina como 'start' */
+    justify-items: start;
   }
 
   .image-item {
-    /* Permite que as imagens se estiquem e caibam no container
-           de 2 colunas, preenchendo a folha verticalmente. */
     height: auto;
+    /* Adicione padding aqui para criar uma "borda" interna que diminui a imagem */
+    padding: 10px; /* Ajuste este valor conforme o tamanho desejado da borda/espaço */
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho total do item */
   }
 
   .image-item img {
-    width: 100%;
-    /* Ocupa 100% da largura, mas a altura será dinâmica para preencher */
+    width: 100%; /* A imagem preenche 100% do espaço DISPONÍVEL DENTRO do padding */
     height: auto;
   }
 }
