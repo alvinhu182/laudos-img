@@ -21,7 +21,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* NOVO: Estilos para a seção do paciente */
+/* Estilos para a seção do paciente */
 .patient-info {
   margin-bottom: 25px;
   padding: 10px;
@@ -35,17 +35,16 @@ h1 {
 .patient-info label {
   font-weight: bold;
   margin-right: 10px;
-  white-space: nowrap; /* Impede que o label quebre a linha */
+  white-space: nowrap;
 }
 
 .patient-info input {
-  flex-grow: 1; /* Faz o input ocupar o espaço restante */
+  flex-grow: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
 }
-/* FIM NOVO */
 
 button {
   display: block;
@@ -76,9 +75,10 @@ button:hover {
   color: #666;
 }
 
-/* Estilo principal para a grade de imagens */
+/* Estilo principal para a grade de imagens (Visualização na Tela) */
 .image-grid {
   display: grid;
+  /* Configuração para no máximo 2 colunas na tela, mas responsivo */
   grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   gap: 15px;
   padding: 10px;
@@ -91,7 +91,7 @@ button:hover {
 
 .image-item {
   width: 100%;
-  height: 300px;
+  height: 300px; /* Altura de referência na tela */
   overflow: hidden;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -113,7 +113,11 @@ button:hover {
   text-align: center;
 }
 
-/* Otimização para impressão (geração do laudo) */
+/* ===============================================
+Otimização para impressão (@media print)
+===============================================
+*/
+
 @media print {
   /* Esconde elementos de interface desnecessários */
   .container {
@@ -121,7 +125,6 @@ button:hover {
     padding: 0;
     max-width: none;
   }
-  /* MANTÉM a informação do paciente */
   h1,
   button,
   .instruction,
@@ -131,12 +134,12 @@ button:hover {
 
   /* ESTILIZAÇÃO DO CAMPO PACIENTE PARA IMPRESSÃO */
   .patient-info {
-    display: block; /* Volta a ser bloco para a impressão */
+    display: block;
     border: none;
     padding: 0;
     margin-bottom: 20px;
     background-color: white;
-    font-size: 18pt; /* Aumenta o tamanho para melhor leitura no laudo */
+    font-size: 18pt;
   }
 
   .patient-info label {
@@ -154,18 +157,28 @@ button:hover {
     font-size: inherit;
   }
 
-  /* FORÇA as 2 COLUNAS para o laudo impresso */
+  /* * CHAVE: Layout de Preenchimento da Folha * */
   .image-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    border: none;
-    min-height: auto;
+    grid-template-columns: 1fr 1fr; /* Força 2 colunas */
+    gap: 0; /* Imagens coladas */
+
+    /* Remove regras de altura forçada e quebra de página */
+    height: auto;
     padding: 0;
+    margin-bottom: 0;
+    border: none;
   }
 
-  /* Altura da imagem para impressão */
   .image-item {
-    height: 40vw;
+    /* Permite que as imagens se estiquem e caibam no container
+           de 2 colunas, preenchendo a folha verticalmente. */
+    height: auto;
+  }
+
+  .image-item img {
+    width: 100%;
+    /* Ocupa 100% da largura, mas a altura será dinâmica para preencher */
+    height: auto;
   }
 }
